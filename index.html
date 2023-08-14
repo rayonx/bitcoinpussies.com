@@ -7,6 +7,7 @@
     <title>Bitcoin Pussies</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.5.1/dist/full.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs" defer></script>
     <script src="./getPussies.js"></script>
   </head>
   <body>
@@ -15,361 +16,33 @@
           <div class="max-w-md">
             <h1 class="text-5xl font-bold">Meow.</h1>
             <p class="py-6">Bitcoin Pussies are 69 uniquely drawn and inscribed cats on Bitcoin</p>
-            <button class="btn btn-primary">Get Started</button>
+            <button class="btn btn-primary">Adopt a pussy</button>
           </div>
         </div>
     </div>
 
-    <div class="px-6 py-6 columns-2 md:columns-3 lg:columns-4">
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/1">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
+    <div 
+      x-data="pussies = []"
+      x-init="pussies = init()"
+      class="px-6 py-6 columns-2 md:columns-3 lg:columns-4">
+      <template x-for="pussy in pussies">
+        <div class="card card-compact bg-base-200 shadow-xl my-6">
+          <figure><img :src="'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(pussy.svg);" alt="Bitcoin Pussies" /></figure>
+          <div class="card-body">
+            <h2 class="card-title">
+              Inscription <span x-text="pussy.number"></span>
+              <div class="badge badge-secondary">NEW</div>
+            </h2>
+            <p x-text="pussy.meta.traits.message"></p>
+            <!-- <div class="card-actions mt-2">
+              <div class="badge badge-outline">Fashion</div> 
+              <div class="badge badge-outline">Products</div>
+            </div> -->
           </div>
         </div>
         
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/2">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/3">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/4">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/5">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/6">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/7">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/8">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/9">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/10">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/11">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/12">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/13">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/14">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="inline-block relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/15">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/16">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/17">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/18">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/19">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/20">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/21">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/22">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/23">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/24">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="relative mb-4 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-          <img class="w-full rounded-md" src="https://source.unsplash.com/random/25">
-          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
-            <div class="relative">
-              <a class="test__link absolute inset-0" target="_blank" href="/"></a>
-              <h1 class="test__title text-3xl font-bold mb-3">#123456</h1>
-              <p class="test__author font-sm font-light">Author</p>
-            </div>
-            <div class="mt-auto">
-              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black">#tag</span>
-            </div>
-          </div>
-        </div>
+      </template>
     </div>
+
   </body>
 </html>
