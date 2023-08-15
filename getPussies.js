@@ -129,7 +129,8 @@ function init(){
     if (svgContent) {
       const traitsJson = parseTraits(svgContent);
       if (traitsJson) {
-        var cat = { "number": inscription.number, "id": inscription.id, "meta": traitsJson, "svg": svgContent };
+        var isShiny = traitsJson.traits.skin.includes('Shiny');
+        var cat = { "number": inscription.number, "id": inscription.id, "meta": traitsJson, "svg": svgContent, "isShiny": isShiny };
         pussiesWithAttitudes.push(cat);
       }
     }
