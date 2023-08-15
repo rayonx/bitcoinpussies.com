@@ -30,30 +30,32 @@
         </div>
       </div>
     </div>
-    <div 
-      x-data="pussies = []"
-      x-init="pussies = init()"
-      class="px-6 py-6 columns-2 md:columns-3 lg:columns-4 xl:columns-5">
-      <template x-for="pussy in pussies">
-        <div class="card card-compact bg-base-200 shadow-xl mb-6 overflow-auto">
-          <figure>
-            <img :src="'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(pussy.svg);" alt="Bitcoin Pussies" />
-            <div class="badge badge-warning absolute top-0 right-0 m-3">for adoption</div>
-          </figure>
-          <div class="card-body" :class="pussy.isShiny ? 'bg-primary' : ''">
-            <h2 class="card-title">
-              <span x-text="pussy.number">#</span><div class="badge badge-outline rounded right-0 absolute mr-3"><p x-text="pussy.meta.number"></p></div> 
-            </h2>
-            <p x-text="pussy.meta.traits.message"></p>
-            <template x-if="pussy.meta.traits.gear != 'None'">
-              <p class="text-xs italic break-all" x-text="pussy.meta.traits.gear"></p>
-            </template>
-            <!-- <div class="card-actions mt-2">
-              <div class="badge badge-outline">Skin:<p x-text="pussy.meta.traits.skin"></p></div>
-            </div> -->
+    <div class="max-w-screen-2xl m-auto">
+      <div 
+        x-data="pussies = []"
+        x-init="pussies = init()"
+        class="px-6 py-6 columns-2 md:columns-3 lg:columns-4 xl:columns-6">
+        <template x-for="pussy in pussies">
+          <div class="card card-compact bg-base-200 shadow-xl mb-6 group overflow-hidden hover:translate-y-[-10px] hover:duration-[0.4s] duration-[0.3s] ease-in-out">
+            <figure>
+              <img class="w-full h-auto" :src="'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(pussy.svg);" alt="Bitcoin Pussies" />
+              <div class="badge badge-warning absolute top-0 right-0 m-3">for adoption</div>
+            </figure>
+            <div class="card-body" :class="pussy.isShiny ? 'bg-primary' : ''">
+              <h2 class="card-title">
+                <span x-text="pussy.number">#</span><div class="badge badge-outline rounded right-0 absolute mr-3"><p x-text="pussy.meta.number"></p></div> 
+              </h2>
+              <p x-text="pussy.meta.traits.message"></p>
+              <template x-if="pussy.meta.traits.gear != 'None'">
+                <p class="text-xs italic break-all" x-text="pussy.meta.traits.gear"></p>
+              </template>
+              <!-- <div class="card-actions mt-2">
+                <div class="badge badge-outline">Skin:<p x-text="pussy.meta.traits.skin"></p></div>
+              </div> -->
+            </div>
           </div>
-        </div>
-      </template>
+        </template>
+      </div>
     </div>
 
   </body>
