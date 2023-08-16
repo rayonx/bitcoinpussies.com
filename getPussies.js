@@ -136,6 +136,6 @@ function init(){
     }
   });
 
-  console.log(pussiesWithAttitudes);
+  //console.log(pussiesWithAttitudes);
   return pussiesWithAttitudes;
 }

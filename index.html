@@ -10,7 +10,16 @@
     <script src="https://unpkg.com/alpinejs" defer></script>
     <script src="./getPussies.js"></script>
   </head>
-  <body>
+  <body
+  x-data="{
+    pussies: [],
+    search: [],
+    get filteredItems() {
+        toFilter = (i) => this.search.length == 0 || (i.isShiny && this.search.includes('shiny')) || (i.meta.traits.gear != 'None' && this.search.includes('gear'));
+        return this.pussies.filter(toFilter);
+    }
+  }"
+  x-init="pussies = init()">
     <div class="hero min-h-fit bg-base-200 py-12">
       <div class="hero-content text-center">
         <div class="max-w-lg py-12">
@@ -24,18 +33,16 @@
     <div class="hero min-h-fit py-2">
       <div class="hero-content text-center">
         <div class="max-w-md">
-          <input type="checkbox" aria-label="Shiny" class="btn" />
-          <input type="checkbox" aria-label="With Gear" class="btn" />
-          <input type="checkbox" aria-label="For Adoption only" class="btn" />
+          <input type="checkbox" class="btn" value="gear" x-model="search" aria-label="Gear" />
+          <input type="checkbox" class="btn" value="shiny" x-model="search" aria-label="Shiny" />
+          <input type="checkbox" class="btn" value="available" x-model="search" aria-label="For adoption" />
         </div>
       </div>
     </div>
     <div class="max-w-screen-2xl m-auto">
-      <div 
-        x-data="pussies = []"
-        x-init="pussies = init()"
+      <div
         class="px-6 py-6 columns-2 md:columns-3 lg:columns-4 xl:columns-6">
-        <template x-for="pussy in pussies">
+        <template x-for="pussy in filteredItems">
           <div class="card card-compact bg-base-200 shadow-xl mb-6 group overflow-hidden hover:translate-y-[-10px] hover:duration-[0.4s] duration-[0.3s] ease-in-out">
             <figure>
               <img class="w-full h-auto" :src="'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(pussy.svg);" alt="Bitcoin Pussies" />
