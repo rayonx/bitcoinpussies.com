@@ -8,7 +8,10 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.5.1/dist/full.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/alpinejs" defer></script>
-    <script src="./getPussies.js"></script>
+    <script src="js/secp256k1.js"></script>
+    <script type="module" src="js/bitcoinjs-lib.js"></script>
+    <script src="js/getPussies.js"></script>
+
   </head>
   <body
   x-data="{
@@ -56,9 +59,15 @@
               <template x-if="pussy.meta.traits.gear != 'None'">
                 <p class="text-xs italic break-all" x-text="pussy.meta.traits.gear"></p>
               </template>
-              <!-- <div class="card-actions mt-2">
-                <div class="badge badge-outline">Skin:<p x-text="pussy.meta.traits.skin"></p></div>
-              </div> -->
+
+              <div class="card-actions mt-2">
+                <div x-data="{ traits: pussy.meta.traits.skin }">
+                  <template x-for="trait in traits.split(', ')" :key="trait">
+                    <div class="badge badge-outline" x-text="trait"></div>
+                  </template>
+                </div>
+              </div>
+
             </div>
           </div>
         </template>
