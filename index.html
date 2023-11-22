@@ -26,10 +26,12 @@
     <div class="hero min-h-fit bg-base-200 py-12">
       <div class="hero-content text-center">
         <div class="max-w-lg py-12">
-          <h1 class="text-5xl font-bold">Meowww</h1>
-          <p class="py-4">Bitcoin Pussies are 69 uniquely drawn and inscribed cats on Bitcoin</p>
-          <p class="pb-6 italic">Artist: <a target="_blank" href="https://twitter.com/chubbypawsart">@chubbypawsart</a></p>
-          <button class="btn btn-primary py-3">Adopt a pussy</button>
+          <h1 class="text-5xl font-bold my-3">Meowww</h1>
+          <p class="py-2">Bitcoin Pussies are 69 uniquely drawn and inscribed cats on Bitcoin</p>
+          <p class="py-2 bold">Proceeds will be allocated towards the mission of cat rescues, betterment of animal shelters, and supporting cat foster homes</p>
+          <p class="italic">Artist: <a target="_blank" href="https://twitter.com/chubbypawsart">@chubbypawsart</a></p>
+          <p class="pb-6 italic">Twitter: <a target="_blank" href="https://twitter.com/Bitcoin_Pussies">@Bitcoin_Pussies</a></p>
+          <button class="btn btn-primary py-3" disabled>Adopt a pussy (coming soon)</button>
         </div>
       </div>
     </div>
@@ -38,7 +40,7 @@
         <div class="max-w-md">
           <input type="checkbox" class="btn" value="gear" x-model="search" aria-label="Gear" />
           <input type="checkbox" class="btn" value="shiny" x-model="search" aria-label="Shiny" />
-          <input type="checkbox" class="btn" value="available" x-model="search" aria-label="For adoption" />
+          <input type="checkbox" class="btn" value="available" x-model="search" disabled aria-label="For adoption" />
         </div>
       </div>
     </div>
@@ -49,7 +51,9 @@
           <div class="card card-compact bg-base-200 shadow-xl mb-6 group overflow-hidden hover:translate-y-[-10px] hover:duration-[0.4s] duration-[0.3s] ease-in-out">
             <figure>
               <img class="w-full h-auto" :src="'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(pussy.svg);" alt="Bitcoin Pussies" />
-              <div class="badge badge-warning absolute top-0 right-0 m-3">for adoption</div>
+              <template x-if="pussy.number != '980000'">
+                <div class="badge badge-warning absolute top-0 right-0 m-3">for adoption</div>
+              </template>
             </figure>
             <div class="card-body" :class="pussy.isShiny ? 'bg-primary' : ''">
               <h2 class="card-title">
