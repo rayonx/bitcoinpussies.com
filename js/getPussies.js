@@ -72,12 +72,12 @@ const inscriptions = [
 
 var pussiesWithAttitudes = [];
   
-function downloadAndStore(url, number) {
+async function downloadAndStore(url, number) {
   const data = localStorage.getItem(number)
   if (data){
-      return
+    return
   }
-  fetch(url)
+  await fetch(url)
     .then(response => response.text())
     .then(content => {
       localStorage.setItem(number, content);
@@ -114,16 +114,16 @@ function parseTraits(svgContent) {
   return { number: title.slice(title.lastIndexOf('#') + 1), traits: traitsJson };
 }
 
-function init(){
+async function init(){
 
   // Rescuing pussies
   // TODO: Refactor to fallback to another domain host if error is thrown
   const hosts = ['ordinals.com', 'ord.io'];
   let count = 0;
-  inscriptions.forEach(inscription => {
+  inscriptions.forEach(async inscription => {
     const url = `https://ordinals.com/content/${inscription.id}`;
     const number = inscription.number;
-    downloadAndStore(url, number);
+    await downloadAndStore(url, number);
   });
 
   // Get pussies from localStorage and parse them
@@ -139,6 +139,30 @@ function init(){
     }
   });
 
-  //console.log(pussiesWithAttitudes);
+  Alpine.store('pussies', pussiesWithAttitudes);
+  
   return pussiesWithAttitudes;
 };
+
+function firstLoadRefresh(){
+  if(window.localStorage){
+    if(localStorage.length == 69 && !localStorage.getItem('firstLoad')){
+      localStorage['firstLoad'] = true;
+      window.location.reload();
+    }else{
+      localStorage.removeItem('firstLoad');
+      localStorage['doneFirstLoad'] = true;
+    }
+  }
+};
+
+document.addEventListener('alpine:init', () => {
+  setTimeout(firstLoadRefresh, 600),
+  Alpine.data('filterPussies', () => ({
+      search: [],
+      get filteredItems() {
+        toFilter = (i) => this.search.length == 0 || (i.isShiny && this.search.includes('shiny')) || (i.meta.traits.gear != 'None' && this.search.includes('gear'));
+        return this.$store.pussies.filter(toFilter);
+      }
+  }))
+})

@@ -8,21 +8,10 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.5.1/dist/full.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/alpinejs" defer></script>
-    <script src="js/secp256k1.js"></script>
-    <script type="module" src="js/bitcoinjs-lib.js"></script>
     <script src="js/getPussies.js"></script>
 
   </head>
-  <body
-  x-data="{
-    pussies: [],
-    search: [],
-    get filteredItems() {
-        toFilter = (i) => this.search.length == 0 || (i.isShiny && this.search.includes('shiny')) || (i.meta.traits.gear != 'None' && this.search.includes('gear'));
-        return this.pussies.filter(toFilter);
-    }
-  }"
-  x-init="pussies = init()">
+  <body x-init="init">
     <div class="hero min-h-fit bg-base-200 py-12">
       <div class="hero-content text-center">
         <div class="max-w-lg py-12">
@@ -35,48 +24,49 @@
         </div>
       </div>
     </div>
-    <div class="hero min-h-fit py-2">
-      <div class="hero-content text-center">
-        <div class="max-w-md">
-          <input type="checkbox" class="btn" value="gear" x-model="search" aria-label="Gear" />
-          <input type="checkbox" class="btn" value="shiny" x-model="search" aria-label="Shiny" />
-          <input type="checkbox" class="btn" value="available" x-model="search" disabled aria-label="For adoption" />
+    <div x-data="filterPussies">
+      <div class="hero min-h-fit py-2">
+        <div class="hero-content text-center">
+          <div class="max-w-md">
+            <input type="checkbox" class="btn" value="gear" x-model="search" aria-label="Gear" />
+            <input type="checkbox" class="btn" value="shiny" x-model="search" aria-label="Shiny" />
+            <input type="checkbox" class="btn" value="available" x-model="search" disabled aria-label="For adoption" />
+          </div>
+        </div>
+      </div>
+      <div class="max-w-screen-2xl m-auto">
+        <div
+          class="px-6 py-6 columns-2 md:columns-3 lg:columns-4 xl:columns-6">
+          <template x-for="pussy in filteredItems">
+            <div class="card card-compact bg-base-200 shadow-xl mb-6 group overflow-hidden hover:translate-y-[-10px] hover:duration-[0.4s] duration-[0.3s] ease-in-out">
+              <figure>
+                <img class="w-full h-auto" :src="'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(pussy.svg);" alt="Bitcoin Pussies" />
+                <template x-if="pussy.number != '980000'">
+                  <div class="badge badge-warning absolute top-0 right-0 m-3">for adoption</div>
+                </template>
+              </figure>
+              <div class="card-body" :class="pussy.isShiny ? 'bg-primary' : ''">
+                <h2 class="card-title">
+                  <span x-text="pussy.number">#</span><div class="badge badge-outline rounded right-0 absolute mr-3"><p x-text="pussy.meta.number"></p></div> 
+                </h2>
+                <p x-text="pussy.meta.traits.message"></p>
+                <template x-if="pussy.meta.traits.gear != 'None'">
+                  <p class="text-xs italic break-all" x-text="pussy.meta.traits.gear"></p>
+                </template>
+
+                <div class="card-actions mt-2">
+                  <div x-data="{ traits: pussy.meta.traits.skin }">
+                    <template x-for="trait in traits.split(', ')" :key="trait">
+                      <div class="badge badge-outline" x-text="trait"></div>
+                    </template>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </template>
         </div>
       </div>
     </div>
-    <div class="max-w-screen-2xl m-auto">
-      <div
-        class="px-6 py-6 columns-2 md:columns-3 lg:columns-4 xl:columns-6">
-        <template x-for="pussy in filteredItems">
-          <div class="card card-compact bg-base-200 shadow-xl mb-6 group overflow-hidden hover:translate-y-[-10px] hover:duration-[0.4s] duration-[0.3s] ease-in-out">
-            <figure>
-              <img class="w-full h-auto" :src="'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(pussy.svg);" alt="Bitcoin Pussies" />
-              <template x-if="pussy.number != '980000'">
-                <div class="badge badge-warning absolute top-0 right-0 m-3">for adoption</div>
-              </template>
-            </figure>
-            <div class="card-body" :class="pussy.isShiny ? 'bg-primary' : ''">
-              <h2 class="card-title">
-                <span x-text="pussy.number">#</span><div class="badge badge-outline rounded right-0 absolute mr-3"><p x-text="pussy.meta.number"></p></div> 
-              </h2>
-              <p x-text="pussy.meta.traits.message"></p>
-              <template x-if="pussy.meta.traits.gear != 'None'">
-                <p class="text-xs italic break-all" x-text="pussy.meta.traits.gear"></p>
-              </template>
-
-              <div class="card-actions mt-2">
-                <div x-data="{ traits: pussy.meta.traits.skin }">
-                  <template x-for="trait in traits.split(', ')" :key="trait">
-                    <div class="badge badge-outline" x-text="trait"></div>
-                  </template>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </template>
-      </div>
-    </div>
-
   </body>
 </html>
