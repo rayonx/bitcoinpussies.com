@@ -69,23 +69,25 @@ const inscriptions = [
   { "number": 979985, "id": "fa82f0faba10dddbb2087f0a4fd8a3575b9732a89a9473bd9f66cf37890b8e49i0" },
   { "number": 979624, "id": "5760103b969d3100c2fda0be5e95206b1cfdcb033d1d259713f53900d9fa7d2ai0" }
 ];
-
-var pussiesWithAttitudes = [];
   
-async function downloadAndStore(url, number) {
+function downloadAndStore(url, number) {
   const data = localStorage.getItem(number)
   if (data){
     return
   }
-  await fetch(url)
+  return new Promise((resolve, reject) => {
+    fetch(url)
     .then(response => response.text())
     .then(content => {
       localStorage.setItem(number, content);
       console.log(`File content for number ${number} stored in localStorage.`);
+      resolve();
     })
     .catch(error => {
       console.error('Error downloading or storing file content:', error);
+      reject();
     });
+  });
 }
 
 function parseTraits(svgContent) {
@@ -114,55 +116,47 @@ function parseTraits(svgContent) {
   return { number: title.slice(title.lastIndexOf('#') + 1), traits: traitsJson };
 }
 
-async function init(){
-
-  // Rescuing pussies
-  // TODO: Refactor to fallback to another domain host if error is thrown
-  const hosts = ['ordinals.com', 'ord.io'];
-  let count = 0;
-  inscriptions.forEach(async inscription => {
-    const url = `https://ordinals.com/content/${inscription.id}`;
-    const number = inscription.number;
-    await downloadAndStore(url, number);
-  });
-
-  // Get pussies from localStorage and parse them
-  inscriptions.forEach(inscription => {
-    const svgContent = localStorage.getItem(inscription.number);
-    if (svgContent) {
-      const traitsJson = parseTraits(svgContent);
-      if (traitsJson) {
-        var isShiny = traitsJson.traits.skin.includes('Shiny');
-        var cat = { "number": inscription.number, "id": inscription.id, "meta": traitsJson, "svg": svgContent, "isShiny": isShiny };
-        pussiesWithAttitudes.push(cat);
-      }
-    }
-  });
-
-  Alpine.store('pussies', pussiesWithAttitudes);
-  
-  return pussiesWithAttitudes;
-};
-
-function firstLoadRefresh(){
-  if(window.localStorage){
-    if(localStorage.length == 69 && !localStorage.getItem('firstLoad')){
-      localStorage['firstLoad'] = true;
-      window.location.reload();
-    }else{
-      localStorage.removeItem('firstLoad');
-      localStorage['doneFirstLoad'] = true;
-    }
-  }
-};
-
 document.addEventListener('alpine:init', () => {
-  setTimeout(firstLoadRefresh, 600),
   Alpine.data('filterPussies', () => ({
+      init(){
+        // Rescuing pussies
+        // TODO: Refactor to fallback to another domain host if error is thrown
+        const hosts = ['ordinals.com', 'ord.io'];
+        let promises = [];
+        let count = 0;
+
+        inscriptions.forEach(inscription => {
+          const url = `https://ordinals.com/content/${inscription.id}`;
+          const number = inscription.number;
+          let promise = downloadAndStore(url, number);
+          promises.push(promise)
+        });
+        
+        // Get pussies from localStorage and parse them
+        Promise.all(promises).then(() => {
+          inscriptions.forEach(inscription => {
+            const svgContent = localStorage.getItem(inscription.number);
+            if (svgContent) {
+              const traitsJson = parseTraits(svgContent);
+              if (traitsJson) {
+                var isShiny = traitsJson.traits.skin.includes('Shiny');
+                var cat = { "number": inscription.number, "id": inscription.id, "meta": traitsJson, "svg": svgContent, "isShiny": isShiny };
+                this.pussies.push(cat);
+              }
+            }
+          });
+        }).catch((err) => {
+          console.error(err);
+        });
+      },
+      pussies: Alpine.reactive([]),
       search: [],
       get filteredItems() {
         toFilter = (i) => this.search.length == 0 || (i.isShiny && this.search.includes('shiny')) || (i.meta.traits.gear != 'None' && this.search.includes('gear'));
-        return this.$store.pussies.filter(toFilter);
+        if (this.search.length == 0){
+          return this.pussies;
+        }
+        return this.pussies.filter(toFilter);
       }
   }))
 })
